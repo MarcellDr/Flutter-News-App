@@ -8,7 +8,7 @@ class NewsRepo {
     final String q = query != null ? 'q=$query&' : '';
     final String c = category != null ? 'category=$category&' : '';
     final String url =
-        'https://newsapi.org/v2/top-headlines?$q${c}apiKey=$API_KEY';
+        'https://newsapi.org/v2/top-headlines?country=id&$q${c}apiKey=$API_KEY';
     print(url);
     var response = await Dio().get(url);
     List<dynamic> data = response.data['articles'];

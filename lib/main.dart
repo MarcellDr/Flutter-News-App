@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:news_app/news/design/news_tab_controller.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(MyApp());
 }

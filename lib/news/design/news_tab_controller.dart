@@ -1,24 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/news/design/screen/headline_screen.dart';
+import 'package:news_app/news/design/screen/news_screen.dart';
 
 class NewsTabController extends StatelessWidget {
+  final List<String> categories = [
+    'Business',
+    'Science',
+    'General',
+    'Health',
+    'Sports',
+  ];
   @override
   Widget build(BuildContext context) {
+    var appTitle = RichText(
+      text: TextSpan(
+        text: 'News',
+        style: TextStyle(color: Colors.black, fontSize: 18),
+        children: <TextSpan>[
+          TextSpan(
+            text: 'Today',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
     return DefaultTabController(
-      length: 5,
+      length: categories.length + 1,
       child: Scaffold(
         appBar: AppBar(
-          title: RichText(
-            text: TextSpan(
-              text: 'News',
-              style: TextStyle(color: Colors.black, fontSize: 18),
-              children: <TextSpan>[
-                TextSpan(
-                  text: 'Today',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ),
+          title: appTitle,
           centerTitle: true,
           actions: [
             IconButton(
@@ -34,30 +44,24 @@ class NewsTabController extends StatelessWidget {
             labelColor: Colors.black,
             tabs: [
               Tab(
-                text: 'Headline',
+                child: Text('Headline'),
               ),
-              Tab(
-                text: 'Business',
-              ),
-              Tab(
-                text: 'Entertaiment',
-              ),
-              Tab(
-                text: 'General',
-              ),
-              Tab(
-                text: 'Health',
-              ),
+              ...categories
+                  .map((c) => Tab(
+                        child: Text(c),
+                      ))
+                  .toList(),
             ],
           ),
         ),
         body: TabBarView(
           children: [
-            Text('headline'),
-            Text('business'),
-            Text('entertaiment'),
-            Text('general'),
-            Text('health'),
+            HeadlineScreen(),
+            ...categories
+                .map(
+                  (c) => NewsScreen(category: c),
+                )
+                .toList(),
           ],
         ),
       ),

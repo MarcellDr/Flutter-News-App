@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/news/data/model/news.dart';
 import 'package:news_app/news/data/repo/news_repo.dart';
-import 'package:news_app/news/design/widget/headline_list_item.dart';
 import 'package:news_app/news/design/widget/news_list_item.dart';
 
-class HeadlineScreen extends StatelessWidget {
+class NewsScreen extends StatelessWidget {
+  final String category;
+
+  const NewsScreen({Key key, this.category}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    print(category);
     return FutureBuilder(
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
@@ -15,16 +19,7 @@ class HeadlineScreen extends StatelessWidget {
           } else {
             return ListView.builder(
               itemBuilder: (context, index) {
-                List<News> headline =
-                    (snapshot.data as List<News>).sublist(0, 5);
-                if (index == 0) {
-                  return HeadlineListItem(headline: headline);
-                } else if (index >= 5) {
-                  return NewsListItem(
-                      news: (snapshot.data as List<News>)[index]);
-                } else {
-                  return Container();
-                }
+                return NewsListItem(news: (snapshot.data as List<News>)[index]);
               },
               itemCount: (snapshot.data as List<News>).length,
             );
@@ -42,7 +37,7 @@ class HeadlineScreen extends StatelessWidget {
           );
         }
       },
-      future: NewsRepo.fetchQueryNews(),
+      future: NewsRepo.fetchQueryNews(category: category),
     );
   }
 }
